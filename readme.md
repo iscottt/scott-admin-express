@@ -11,6 +11,7 @@
 
 #### 数据库设计
 - 用户模型
+
 ```javascript
 /**
  * 用户模型
@@ -60,6 +61,7 @@ const UserModel = sequelize.define(
 ```
 
 - 角色模型
+
 ```javascript
 /**
  * 角色模型
@@ -103,6 +105,7 @@ const RoleModel = sequelize.define(
 ```
     
 - 菜单模型
+
 ```javascript
 const MenuModule = sequelize.define('Menu', 
     {
