@@ -1,17 +1,21 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../db');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../db");
 
 /**
  * 用户模型
  * @author yupi
  */
 const UserModel = sequelize.define(
-  'User',
+  "User",
   {
     id: {
       type: DataTypes.BIGINT,
       autoIncrement: true,
       primaryKey: true,
+    },
+    roleId: {
+      type: DataTypes.BIGINT,
+      field: "role_id",
     },
     // Model attributes are defined here
     username: {
@@ -31,16 +35,25 @@ const UserModel = sequelize.define(
     },
     createTime: {
       type: DataTypes.DATE,
+      field: "create_time",
     },
     updateTime: {
       type: DataTypes.DATE,
+      field: "update_time",
+    },
+    userRole: {
+      type: DataTypes.STRING,
+      field: "user_role",
     },
   },
   {
-    tableName: 'user',
-    paranoid: true,
-    deletedAt: 'isDelete',
-    timestamps: false,
+    tableName: "user",
+    // 软删除
+    paranoid: false,
+    createdAt: "createTime",
+    updatedAt: "updateTime",
+    // 自动添加时间戳
+    timestamps: true,
   }
 );
 

@@ -1,13 +1,13 @@
 const SError = require("../exception");
 const {
-    REQUEST_PARAMS_ERROR_CODE,
-    NO_AUTH_ERROR_CODE,
+  REQUEST_PARAMS_ERROR_CODE,
+  NO_AUTH_ERROR_CODE,
 } = require("../exception/errorCode");
-// const {
-//     userLogin,
-//     userRegister,
-//     getLoginUser,
-// } = require("../service/userService");
+const {
+  userLogin,
+  userRegister,
+  getLoginUser,
+} = require("../service/userService");
 
 /**
  * 用户注册
@@ -16,7 +16,12 @@ const {
  * @param res
  */
 async function userRegisterApi(event, req, res) {
-    return '用户注册'
+  const { username, password, email } = event;
+  if (!username || !password || !email) {
+    throw new SError(REQUEST_PARAMS_ERROR_CODE, "参数错误");
+  }
+  const result = await userRegister(username, password, email);
+  return result ? "操作成功" : "操作失败，系统异常";
 }
 
 /**
@@ -26,7 +31,11 @@ async function userRegisterApi(event, req, res) {
  * @param res
  */
 async function userLoginApi(event, req, res) {
-    return '用户登录'
+  const { username, password } = event;
+  if (!username || !password) {
+    throw new SError(REQUEST_PARAMS_ERROR_CODE, "参数错误");
+  }
+  return await userLogin(username, password, req);
 }
 
 /**
@@ -36,7 +45,11 @@ async function userLoginApi(event, req, res) {
  * @param res
  */
 function userLogoutApi(event, req, res) {
-    return '用户注销登录';
+  if (!req.session.userInfo) {
+    throw new SError(NO_AUTH_ERROR_CODE, "未登录");
+  }
+  delete req.session.userInfo;
+  return true;
 }
 
 /**
@@ -46,12 +59,12 @@ function userLogoutApi(event, req, res) {
  * @param res
  */
 async function getLoginUserApi(event, req, res) {
-    return '用户信息'
+  return await getLoginUser(req);
 }
 
 module.exports = {
-    userRegisterApi,
-    userLoginApi,
-    getLoginUserApi,
-    userLogoutApi,
+  userRegisterApi,
+  userLoginApi,
+  getLoginUserApi,
+  userLogoutApi,
 };

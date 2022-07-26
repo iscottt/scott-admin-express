@@ -5,10 +5,11 @@
 module.exports = {
   // MySQL 配置
   dbConfig: {
-    database: 'scott-admin',
-    username: 'root',
-    password: 'root',
-    host: 'localhost',
+    database: "scott-admin",
+    username: "root",
+    password: "13155958652",
+    host: "localhost",
     port: 3306,
   },
+  secretKey: "Scott",
 };
