@@ -4,11 +4,10 @@ const MyError = require("./exception");
 const http = require("http");
 const {
   FORBIDDEN_ERROR_CODE,
-  NO_AUTH_ERROR_CODE,
+  INVALID_TOKEN_ERROR_CODE,
 } = require("./exception/errorCode");
 const morgan = require("morgan");
 const { expressjwt: jwt } = require("express-jwt");
-require("express-async-errors");
 const secretKey = "Scott";
 // 请求大小限制
 const requestLimit = "5120kb";
@@ -52,13 +51,17 @@ class ExpressServer {
         algorithms: ["HS256"],
         credentialsRequired: true, //  false：不校验
       }).unless({
-        path: ["/api/user/login", "/api/user/register"], //不需要校验的路径
+        path: [
+          "/api/user/login",
+          "/api/user/register",
+          "/api/user/refreshToken",
+        ], //不需要校验的路径
       })
     );
     this.app.use((err, req, res) => {
       if (err.name === "UnauthorizedError") {
         return res.send({
-          retCode: NO_AUTH_ERROR_CODE,
+          retCode: INVALID_TOKEN_ERROR_CODE,
           retMessage: "token已过期",
         });
       }

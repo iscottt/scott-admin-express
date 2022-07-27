@@ -7,6 +7,7 @@ const {
   userLogin,
   userRegister,
   getLoginUser,
+  getRefreshToken,
 } = require("../service/userService");
 
 /**
@@ -45,10 +46,9 @@ async function userLoginApi(event, req, res) {
  * @param res
  */
 function userLogoutApi(event, req, res) {
-  if (!req.session.userInfo) {
+  if (!req.auth.dataValues) {
     throw new SError(NO_AUTH_ERROR_CODE, "未登录");
   }
-  delete req.session.userInfo;
   return true;
 }
 
@@ -62,9 +62,24 @@ async function getLoginUserApi(event, req, res) {
   return await getLoginUser(req);
 }
 
+/**
+ * 获取刷新凭证 refreshToken
+ * @param event
+ * @param req
+ * @param res
+ */
+async function getRefreshTokenApi(event, req, res) {
+  const { verifyToken } = event;
+  if (!verifyToken) {
+    throw new SError(REQUEST_PARAMS_ERROR_CODE, "参数错误");
+  }
+  return await getRefreshToken(verifyToken);
+}
+
 module.exports = {
   userRegisterApi,
   userLoginApi,
   getLoginUserApi,
   userLogoutApi,
+  getRefreshTokenApi,
 };

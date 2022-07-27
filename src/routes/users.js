@@ -1,4 +1,4 @@
-const userController = require('../controller/userController')
+const userController = require("./../controller/userController");
 
 /**
  * 接口路由
@@ -16,7 +16,15 @@ const users = [
   {
     path: "/user/logout",
     handler: userController.userLogoutApi,
-  }
+  },
+  {
+    path: "/user/getLoginUser",
+    handler: userController.getLoginUserApi,
+  },
+  {
+    path: "/user/refreshToken",
+    handler: userController.getRefreshTokenApi,
+  },
 ];
 
 module.exports = users;
