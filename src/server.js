@@ -12,6 +12,19 @@ const secretKey = "Scott";
 // 请求大小限制
 const requestLimit = "5120kb";
 
+function error(err, req, res) {
+  if (err.name === "UnauthorizedError") {
+    return res.send({
+      retCode: INVALID_TOKEN_ERROR_CODE,
+      retMessage: "token已过期",
+    });
+  }
+  return res.send({
+    retCode: 500,
+    retMessage: "服务器内部错误",
+  });
+}
+
 class ExpressServer {
   constructor() {
     this.app = express();
@@ -52,35 +65,24 @@ class ExpressServer {
         credentialsRequired: true, //  false：不校验
       }).unless({
         path: [
-          "/api/user/login",
-          "/api/user/register",
-          "/api/user/refreshToken",
+          "/api/auth/login",
+          "/api/auth/register",
+          "/api/auth/refreshToken",
         ], //不需要校验的路径
       })
     );
-    this.app.use((err, req, res) => {
-      if (err.name === "UnauthorizedError") {
-        return res.send({
-          retCode: INVALID_TOKEN_ERROR_CODE,
-          retMessage: "token已过期",
-        });
-      }
-      return res.send({
-        retCode: 500,
-        retMessage: "服务器内部错误",
-      });
-    });
+    this.app.use(error);
     this.server = http.createServer(this.app);
   }
 
-  setRoute(path, handlerFunction) {
+  setRoute(path, method, handlerFunction) {
     const handler = async (req, res) => {
       // IP 过滤
       const requestClientIp = getClientIp(req);
       if (!requestClientIp) {
         return FORBIDDEN_ERROR_CODE;
       }
-      const event = req.body;
+      const event = Object.assign(req.body, req.params);
       let result;
       try {
         const startTime = new Date().getTime();
@@ -133,7 +135,27 @@ class ExpressServer {
       }
       res.send(result);
     };
-    this.app.post(this.contextPath + path, handler);
+    // TODO: 代码优化
+    switch (method) {
+      case "POST":
+        this.app.post(this.contextPath + path, handler);
+        break;
+      case "GET":
+        this.app.get(this.contextPath + path, handler);
+        break;
+      case "PUT":
+        this.app.put(this.contextPath + path, handler);
+        break;
+      case "DELETE":
+        this.app.delete(this.contextPath + path, handler);
+        break;
+      case "PATCH":
+        this.app.patch(this.contextPath + path, handler);
+        break;
+      default:
+        this.app.post(this.contextPath + path, handler);
+        break;
+    }
   }
 
   listen(port) {

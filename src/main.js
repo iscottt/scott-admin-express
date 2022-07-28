@@ -5,7 +5,7 @@ const routes = require("./routes/index");
 const server = new CloudBaseRunServer();
 // 注册接口路由 降维数组遍历setRoute
 for (const route of routes.flat()) {
-  server.setRoute(route.path, route.handler);
+  server.setRoute(route.path, route.method, route.handler);
 }
 // 监听端口
 server.listen(7345);

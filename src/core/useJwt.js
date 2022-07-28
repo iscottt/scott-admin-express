@@ -20,13 +20,7 @@ const verToken = function (token) {
     jwt.verify(token, secretKey, (error, decoded) => {
       if (error) {
         console.log("token error", error);
-        //token过期
-        if (error.name === "TokenExpiredError") {
-          throw new SError(NO_AUTH_ERROR_CODE, "token已过期");
-        } else if (error.name === "JsonWebTokenError") {
-          //无效的token
-          throw new SError(NO_AUTH_ERROR_CODE, "无效的token");
-        }
+        throw new SError(NO_AUTH_ERROR_CODE, "token已过期");
       }
       resolve(decoded);
     });

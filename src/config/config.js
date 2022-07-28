@@ -12,4 +12,6 @@ module.exports = {
     port: 3306,
   },
   secretKey: "Scott",
+  SALT: "coder_scott",
+  defaultPassword: "123456",
 };

@@ -1,1 +1,1 @@
-module.exports = [require("./users")];
+module.exports = [require("./auth"), require("./menu"), require("./user")];
