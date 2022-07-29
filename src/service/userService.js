@@ -12,6 +12,7 @@ const { SALT, defaultPassword } = require("../config/getConfig");
 /**
  * 分页查询用户
  * @param username
+ * @param status
  * @param pageSize
  * @param current
  * @returns {Promise<{[p: string]: *}>}
@@ -27,7 +28,7 @@ async function getUserByPage(username, status, pageSize, current) {
     });
 
   status &&
-    status != "all" &&
+    status !== "all" &&
     Object.assign(whereOptions, {
       status,
     });
