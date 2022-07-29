@@ -42,7 +42,8 @@ const MenuModel = sequelize.define(
     },
     status: {
       type: DataTypes.INTEGER,
-      defaultValue: 0,
+      //  1 启用 2 禁用
+      defaultValue: 1,
     },
     createTime: {
       type: DataTypes.DATE,

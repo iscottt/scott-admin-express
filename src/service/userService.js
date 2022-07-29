@@ -16,7 +16,7 @@ const { SALT, defaultPassword } = require("../config/getConfig");
  * @param current
  * @returns {Promise<{[p: string]: *}>}
  */
-async function getUserByPage(username, pageSize, current) {
+async function getUserByPage(username, status, pageSize, current) {
   const whereOptions = {};
   // 拼装查询语句
   username &&
@@ -25,6 +25,12 @@ async function getUserByPage(username, pageSize, current) {
         [Op.like]: `%${username}%`,
       },
     });
+
+  status &&
+    status != "all" &&
+    Object.assign(whereOptions, {
+      status,
+    });
   // 按条件查询且返回总数
   const result = await UserModel.findAndCountAll({
     where: whereOptions,
@@ -32,11 +38,15 @@ async function getUserByPage(username, pageSize, current) {
     // limit 必须是number类型
     limit: pageSize,
     offset: (current - 1) * pageSize,
+    order: [["createTime", "DESC"]],
   });
   return {
-    ...result,
-    current,
-    pageSize,
+    rows: result.rows,
+    pagination: {
+      current,
+      pageSize,
+      total: result.count,
+    },
   };
 }
 
@@ -69,6 +79,7 @@ async function userInsert(username, email, status, userRole) {
     password: cryptoPassword,
     // 默认角色为访客
     userRole: userRole || "visitor",
+    status: 1,
   });
   return "操作成功";
 }

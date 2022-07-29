@@ -10,8 +10,8 @@ const { REQUEST_PARAMS_ERROR_CODE } = require("../exception/errorCode");
 
 async function userPageApi(event) {
   // 默认查询条件为每页10条
-  const { pageSize = 10, current = 1, username } = event;
-  return await getUserByPage(username, +pageSize, current);
+  const { pageSize = 10, current = 1, username, status } = event;
+  return await getUserByPage(username, status, +pageSize, current);
 }
 
 async function userInsertApi(event) {

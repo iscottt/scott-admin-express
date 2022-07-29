@@ -31,7 +31,7 @@ const UserModel = sequelize.define(
     },
     status: {
       type: DataTypes.INTEGER,
-      defaultValue: 0,
+      defaultValue: 1,
     },
     createTime: {
       type: DataTypes.DATE,

@@ -5,6 +5,7 @@ const http = require("http");
 const {
   FORBIDDEN_ERROR_CODE,
   INVALID_TOKEN_ERROR_CODE,
+  SYSTEM_ERROR_CODE,
 } = require("./exception/errorCode");
 const morgan = require("morgan");
 const { expressjwt: jwt } = require("express-jwt");
@@ -12,7 +13,8 @@ const secretKey = "Scott";
 // 请求大小限制
 const requestLimit = "5120kb";
 
-function error(err, req, res) {
+// 四个参数必须都要，否则会当做普通的回调函数，而不是异常处理
+function error(err, req, res, _next) {
   if (err.name === "UnauthorizedError") {
     return res.send({
       retCode: INVALID_TOKEN_ERROR_CODE,
@@ -20,7 +22,7 @@ function error(err, req, res) {
     });
   }
   return res.send({
-    retCode: 500,
+    retCode: SYSTEM_ERROR_CODE,
     retMessage: "服务器内部错误",
   });
 }
