@@ -59,4 +59,5 @@ const list2tree = (items, parentId = 0, arr = [], pathPrefix = "") => {
       };
     });
 };
+
 module.exports = generatorMenus;

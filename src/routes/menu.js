@@ -10,6 +10,11 @@ const users = [
     method: "POST",
     handler: menuController.getRoutersApi,
   },
+  {
+    path: "/menu/getMenuTree",
+    method: "GET",
+    handler: menuController.getMenuTreeApi,
+  },
 ];
 
 module.exports = users;

@@ -79,8 +79,6 @@ async function userRegister(username, password, email) {
     username,
     password: cryptoPassword,
     email,
-    // 默认角色为访客
-    userRole: "visitor",
     status: 1,
   });
   return user;

@@ -56,10 +56,10 @@ async function getUserByPage(username, status, pageSize, current) {
  * @param username
  * @param email
  * @param status
- * @param userRole
+ * @param roleIds
  * @returns {Promise<string>}
  */
-async function userInsert(username, email, status, userRole) {
+async function userInsert(username, email, status, roleIds) {
   // 表单验证
   useVerifyUser(username, "", email, false);
   // 用户是否已存在
@@ -78,8 +78,7 @@ async function userInsert(username, email, status, userRole) {
     username,
     email,
     password: cryptoPassword,
-    // 默认角色为访客
-    userRole: userRole || "visitor",
+    roleIds,
     status: 1,
   });
   return "操作成功";
@@ -91,16 +90,16 @@ async function userInsert(username, email, status, userRole) {
  * @param username
  * @param email
  * @param status
- * @param userRole
+ * @param roleIds
  * @returns {Promise<string>}
  */
-async function userUpdate(id, username, email, status, userRole) {
+async function userUpdate(id, username, email, status, roleIds) {
   const updateOptions = {};
   username && Object.assign(updateOptions, { username });
   email && Object.assign(updateOptions, { email });
   status && Object.assign(updateOptions, { status });
-  userRole && Object.assign(updateOptions, { userRole });
-  const user = UserModel.findByPk(id, {
+  roleIds && Object.assign(updateOptions, { roleIds });
+  const user = await UserModel.findByPk(id, {
     attributes: { exclude: ["password"] },
   });
   if (!user) {

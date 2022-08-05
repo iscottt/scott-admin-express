@@ -15,19 +15,19 @@ async function userPageApi(event) {
 }
 
 async function userInsertApi(event) {
-  const { username, email, status, userRole } = event;
+  const { username, email, status, roleIds } = event;
   if (!username || !email) {
     throw new SError(REQUEST_PARAMS_ERROR_CODE, "参数错误");
   }
-  return await userInsert(username, email, status, userRole);
+  return await userInsert(username, email, status, roleIds);
 }
 
 async function userUpdateApi(event) {
-  const { id, username, email, status, userRole } = event;
+  const { id, username, email, status, roleIds } = event;
   if (!id) {
     throw new SError(REQUEST_PARAMS_ERROR_CODE, "参数错误");
   }
-  return await userUpdate(id, username, email, status, userRole);
+  return await userUpdate(id, username, email, status, roleIds);
 }
 
 async function userDeleteApi(event) {

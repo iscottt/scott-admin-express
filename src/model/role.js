@@ -2,31 +2,30 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../db");
 
 /**
- * 用户模型
- * @author yupi
+ * 角色模型
+ * @author scott
  */
-const UserModel = sequelize.define(
-  "User",
+const RoleModel = sequelize.define(
+  "Role",
   {
     id: {
       type: DataTypes.BIGINT,
       autoIncrement: true,
       primaryKey: true,
     },
+    menuIds: {
+      type: DataTypes.BIGINT,
+      field: "menu_ids",
+    },
     // Model attributes are defined here
-    username: {
+    roleName: {
       type: DataTypes.STRING,
+      field: "role_name",
       allowNull: false,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
     },
     status: {
       type: DataTypes.INTEGER,
+      //  1 启用 2 禁用
       defaultValue: 1,
     },
     createTime: {
@@ -37,13 +36,9 @@ const UserModel = sequelize.define(
       type: DataTypes.DATE,
       field: "update_time",
     },
-    roleIds: {
-      type: DataTypes.STRING,
-      field: "role_ids",
-    },
   },
   {
-    tableName: "user",
+    tableName: "role",
     // 软删除
     paranoid: false,
     createdAt: "createTime",
@@ -52,5 +47,4 @@ const UserModel = sequelize.define(
     timestamps: true,
   }
 );
-
-module.exports = UserModel;
+module.exports = RoleModel;
