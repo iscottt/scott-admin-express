@@ -55,6 +55,7 @@ const list2tree = (items, parentId = 0, arr = [], pathPrefix = "") => {
           title: menuName,
           icon: menuIcon,
           order: menuSort,
+          requiresAuth: true,
         },
       };
     });
