@@ -2,7 +2,7 @@ const userController = require("../controller/userController");
 
 /**
  * 接口路由
- * @author yupi
+ * @author scott studio
  */
 const auth = [
   {

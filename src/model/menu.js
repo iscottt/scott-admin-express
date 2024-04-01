@@ -3,7 +3,7 @@ const sequelize = require("../db");
 
 /**
  * 用户模型
- * @author yupi
+ * @author scott studio
  */
 const MenuModel = sequelize.define(
   "Menu",

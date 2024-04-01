@@ -15,7 +15,7 @@
 ```javascript
 /**
  * 用户模型
- * @author yupi
+ * @author scott studio
  */
 const UserModel = sequelize.define(
     "User",
@@ -65,7 +65,7 @@ const UserModel = sequelize.define(
 ```javascript
 /**
  * 角色模型
- * @author yupi
+ * @author scott studio
  */
 const RoleModel = sequelize.define(
   "Role",

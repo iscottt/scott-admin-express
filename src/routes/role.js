@@ -2,7 +2,7 @@ const roleController = require("../controller/roleController");
 
 /**
  * 接口路由
- * @author yupi
+ * @author scott studio
  */
 const role = [
   {

@@ -2,7 +2,7 @@ const menuController = require("./../controller/menuController");
 
 /**
  * 接口路由
- * @author yupi
+ * @author scott studio
  */
 const users = [
   {
